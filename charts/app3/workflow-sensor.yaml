@@ -19,7 +19,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               name: my-triggered-workflow # O nome do workflow a ser acionado
-              namespace: argo # O namespace onde seu workflow está
+              namespace: argocd # O namespace onde seu workflow está
           parameters:
             - src:
                 dependency: http-dependency
