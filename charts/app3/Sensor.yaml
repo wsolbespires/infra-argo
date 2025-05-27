@@ -1,33 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: webhook-sensor
+  name: example-sensor
   namespace: argocd
 spec:
   dependencies:
-    - name: webhook-dep
-      eventSourceName: webhook
+    - name: example-dep
+      eventSourceName: example-source
       eventName: example
   triggers:
     - template:
-        name: argo-workflow-trigger
+        name: example-trigger
         k8s:
-          group: argoproj.io
-          version: v1
-          resource: workflows
-          operation: create
+          group: ""
+          version: "v1"
+          resource: "pods"
+          operation: "create"
           source:
             resource:
-              apiVersion: argoproj.io/v1
-              kind: Workflow
+              apiVersion: v1
+              kind: Pod
               metadata:
-                generateName: hello-world-
-                namespace: argocd
+                generateName: "example-trigger-pod-"
               spec:
-                entrypoint: whalesay
-                templates:
-                  - name: whalesay
-                    container:
-                      image: docker/whalesay
-                      command: ["cowsay"]
-                      args: ["Hello World from Argo Events!"]
+                containers:
+                  - name: example
+                    image: busybox
+                    command: ["/bin/sh", "-c", "echo Hello from Argo Events Sensor! && sleep 3600"]
