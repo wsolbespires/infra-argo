@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventBus
+metadata:
+  name: default
+  namespace: argocd # Ou o namespace onde seu Argo Events está instalado
+spec:
+  nats:
+    native:
+      replicas: 3 # Número de réplicas do NATS para HA (pode ser 1 para teste)
+      containerTemplate:
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
